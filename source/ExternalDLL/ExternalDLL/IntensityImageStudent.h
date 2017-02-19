@@ -4,9 +4,22 @@
 * Proprietary and confidential
 */
 
+/*
+Information:
+	http://stackoverflow.com/questions/936687/how-do-i-declare-a-2d-array-in-c-using-new
+	http://lemire.me/blog/2012/06/20/do-not-waste-time-with-stl-vectors/
+*/
+
+
 #pragma once
 #include "IntensityImage.h"
+
+#include <vector>
+typedef std::vector<Intensity> intensity_vector;
+
 class IntensityImageStudent : public IntensityImage {
+private:
+	intensity_vector intensity_values;
 public:
 	IntensityImageStudent();
 	IntensityImageStudent(const IntensityImageStudent &other);
