@@ -6,8 +6,12 @@
 
 #pragma once
 #include "PreProcessing.h"
+#include "IntensityImageStudent.h"
+#include "ImageFactory.h"
+
 class StudentPreProcessing : public PreProcessing {
 public:
+	//Grayscale conversion needs to be in step to setToIntensityImage
 	IntensityImage * stepToIntensityImage(const RGBImage &image) const;
 	IntensityImage * stepScaleImage(const IntensityImage &image) const;
 	IntensityImage * stepEdgeDetection(const IntensityImage &image) const;
