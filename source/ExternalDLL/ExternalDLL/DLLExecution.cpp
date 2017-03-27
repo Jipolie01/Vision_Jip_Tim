@@ -376,6 +376,23 @@ bool DLLExecution::executePreProcessingStep1(bool student) {
 	} else {
 		resultPreProcessingStep1 = defaultPreProcessing.stepToIntensityImage(*inputImage);
 	}
+
+	/*
+	int histo_list[255];
+	for (int i = 0; i < 255; i++) {
+		histo_list[i] = 0;
+	}
+	//Value histogram
+	for (int y = 0; y < (resultPreProcessingStep1->getHeight() * resultPreProcessingStep1->getWidth()); y++) {
+		histo_list[resultPreProcessingStep1->getPixel(y)]++;
+	}
+	//Printing histogram
+	for (int i = 0; i < 255; i++) {
+		if (histo_list[i] != 0 || i == 0 || i == 254) {
+			std::cout << i << "\t:\t" << histo_list[i] << std::endl;
+		}
+	}
+	*/
 	return resultPreProcessingStep1 != NULL;
 }
 

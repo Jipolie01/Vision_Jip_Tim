@@ -10,10 +10,14 @@
 #include "ImageFactory.h"
 #include "DLLExecution.h"
 
+#include "exectimer.h"
+
 void drawFeatureDebugImage(IntensityImage &image, FeatureMap &features);
 bool executeSteps(DLLExecution * executor);
+BaseTimer * timer = new BaseTimer();
 
 int main(int argc, char * argv[]) {
+	timer->start();
 
 	ImageFactory::setImplementation(ImageFactory::DEFAULT);
 	//ImageFactory::setImplementation(ImageFactory::STUDENT);
@@ -26,12 +30,14 @@ int main(int argc, char * argv[]) {
 
 
 	RGBImage * input = ImageFactory::newRGBImage();
-	if (!ImageIO::loadImage("D:\\Users\\Rolf\\Downloads\\TestA5.jpg", *input)) {
+	if (!ImageIO::loadImage("C:\\Users\\Tim\\Documents\\GitHub\\Vision_Jip_Tim\\testsets\\Set A\\TestSet Images\\female-3.png", *input)) {
 		std::cout << "Image could not be loaded!" << std::endl;
 		system("pause");
 		return 0;
 	}
-
+	timer->stop();
+	std::cout << "Elapsed time RGB shell: " << timer->elapsedMicroSeconds() << '\n';
+	timer->reset();
 
 	ImageIO::saveRGBImage(*input, ImageIO::getDebugFileName("debug.png"));
 
@@ -47,6 +53,7 @@ int main(int argc, char * argv[]) {
 	}
 
 	delete executor;
+	delete timer;
 	system("pause");
 	return 1;
 }
@@ -62,11 +69,16 @@ int main(int argc, char * argv[]) {
 
 bool executeSteps(DLLExecution * executor) {
 
+	timer->start();
 	//Execute the four Pre-processing steps
-	if (!executor->executePreProcessingStep1(false)) {
+	if (!executor->executePreProcessingStep1(true)) {
 		std::cout << "Pre-processing step 1 failed!" << std::endl;
 		return false;
 	}
+
+	timer->stop();
+	std::cout << "Elapsed time Grayscale conversion: " << timer->elapsedMicroSeconds() << '\n';
+	timer->reset();
 
 	if (!executor->executePreProcessingStep2(false)) {
 		std::cout << "Pre-processing step 2 failed!" << std::endl;
