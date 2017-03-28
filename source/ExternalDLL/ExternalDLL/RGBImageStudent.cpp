@@ -4,33 +4,29 @@ RGBImageStudent::RGBImageStudent() : RGBImage() {
 }
 
 RGBImageStudent::RGBImageStudent(const RGBImageStudent & other) : RGBImage(other.getWidth(), other.getHeight()) {
-	image_colors.clear();
-	for (const auto & color: other.image_colors) {
-		image_colors.push_back(color);
-	}
+	set(other);
 }
 
 
 RGBImageStudent::RGBImageStudent(const int width, const int height) : RGBImage(width, height) {
-	image_colors.resize(width * height);
+	image_colors.reserve(width * height);
 }
 
 RGBImageStudent::~RGBImageStudent() {
-	//vector deleten??
 }
 
 void RGBImageStudent::set(const int width, const int height) {
 	RGBImage::set(width, height);
-	
-	image_colors.resize(width * height);
+	image_colors.reserve(width * height);
 }
 
 void RGBImageStudent::set(const RGBImageStudent &other) {
 	RGBImage::set(other.getWidth(), other.getHeight());
 	
-	image_colors.clear();
-	for (const auto & color : other.image_colors) {
-		image_colors.push_back(color);
+	int new_size = getWidth() * getHeight();
+	image_colors.reserve(new_size);
+	for (int i = 0; i < new_size; i++) {
+		image_colors[i] = other.image_colors[i];
 	}
 }
 

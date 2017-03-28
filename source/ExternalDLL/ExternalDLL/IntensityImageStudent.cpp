@@ -4,32 +4,28 @@ IntensityImageStudent::IntensityImageStudent() : IntensityImage() {
 }
 
 IntensityImageStudent::IntensityImageStudent(const IntensityImageStudent &other) : IntensityImage(other.getWidth(), other.getHeight()) {
-	intensity_values.clear();
-	for (const auto & intensity : other.intensity_values) {
-		intensity_values.push_back(intensity);
-	}
+	set(other);
 }
 
 IntensityImageStudent::IntensityImageStudent(const int width, const int height) : IntensityImage(width, height) {
-	intensity_values.resize(width * height);
+	intensity_values.reserve(width * height);
 }
 
 IntensityImageStudent::~IntensityImageStudent() {
-	//vector deleten?
 }
 
 void IntensityImageStudent::set(const int width, const int height) {
 	IntensityImage::set(width, height);
-
-	intensity_values.resize(width * height);
+	intensity_values.reserve(width * height);
 }
 
 void IntensityImageStudent::set(const IntensityImageStudent &other) {
 	IntensityImage::set(other.getWidth(), other.getHeight());
-
-	intensity_values.clear();
-	for (const auto & intensity : other.intensity_values) {
-		intensity_values.push_back(intensity);
+	
+	int new_size = getWidth() * getHeight();
+	intensity_values.reserve(new_size);
+	for (int i = 0; i < new_size; i++) {
+		intensity_values[i] = other.intensity_values[i];
 	}
 }
 
