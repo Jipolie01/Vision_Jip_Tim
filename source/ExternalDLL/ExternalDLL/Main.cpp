@@ -10,13 +10,19 @@
 #include "ImageFactory.h"
 #include "DLLExecution.h"
 
+#include <Windows.h>
 #include "exectimer.h"
+#include <psapi.h>
+
 
 void drawFeatureDebugImage(IntensityImage &image, FeatureMap &features);
 bool executeSteps(DLLExecution * executor);
 BaseTimer * timer = new BaseTimer();
 
 int main(int argc, char * argv[]) {
+	PROCESS_MEMORY_COUNTERS memCounter;
+	BOOL result = GetProcessMemoryInfo(GetCurrentProcess(), &memCounter, sizeof(memCounter));
+	std::cout << "memory useage peak before rgb imageshell: " << memCounter.WorkingSetSize << '\n';
 	timer->start();
 
 	ImageFactory::setImplementation(ImageFactory::DEFAULT);
@@ -30,7 +36,7 @@ int main(int argc, char * argv[]) {
 
 
 	RGBImage * input = ImageFactory::newRGBImage();
-	if (!ImageIO::loadImage("C:\\Users\\Tim\\Documents\\GitHub\\Vision_Jip_Tim\\testsets\\Set A\\TestSet Images\\female-3.png", *input)) {
+	if (!ImageIO::loadImage("C:\\Users\\TimIJntema\\Documents\\GitHub\\Vision_Jip_Tim\\testsets\\Set A\\TestSet Images\\female-3.png", *input)) {
 		std::cout << "Image could not be loaded!" << std::endl;
 		system("pause");
 		return 0;
@@ -38,6 +44,10 @@ int main(int argc, char * argv[]) {
 	timer->stop();
 	std::cout << "Elapsed time RGB shell: " << timer->elapsedMicroSeconds() << '\n';
 	timer->reset();
+	
+
+	result = GetProcessMemoryInfo(GetCurrentProcess(), &memCounter, sizeof(memCounter));
+	std::cout << "memory useage peak after rgb imageshell: " << memCounter.WorkingSetSize << '\n';
 
 	ImageIO::saveRGBImage(*input, ImageIO::getDebugFileName("debug.png"));
 
